@@ -80,7 +80,7 @@ async def start():
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
     #
-    # dp.message.register(send_media.get_audio, Command(commands='audio'))
+    #dp.message.register(send_media.get_audio, Command(commands='audio'))
     # dp.message.register(send_media.get_document, Command(commands='document'))
     # dp.message.register(send_media.get_media_group, Command(commands='mediagroup'))
     # dp.message.register(send_media.get_photo, Command(commands='photo'))
@@ -104,15 +104,15 @@ async def start():
     #
     # dp.message.register(get_photo,F.photo )
     #
-    # dp.message.register(get_location, F.location)
-    # dp.message.register(get_hello, F.text == 'Привет')
+    dp.message.register(get_location, F.location)
+    dp.message.register(get_hello, F.text == 'Привет')
     # dp.message.register(get_true_contact, F.contact, IsTrueContact())
     # dp.message.register(get_fake_contact, F.contact)
     #
     #
-    # dp.message.register(get_photo, F.photo)
+    dp.message.register(get_photo, F.photo)
     # dp.message.register(get_start, Command(commands=['start', 'run']))
-    # dp.message.register(get_start, CommandStart)
+    #dp.message.register(get_start, CommandStart)
     try:
         await dp.start_polling(bot)
     finally:

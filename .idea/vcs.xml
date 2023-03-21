@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/../../" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../GFPGAN" vcs="" />
+    <mapping directory="$PROJECT_DIR$/../../Sm2BSM" vcs="" />
+    <mapping directory="$PROJECT_DIR$/../OrionLoop" vcs="" />
+    <mapping directory="$PROJECT_DIR$/../OrionP" vcs="" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
 </project>

@@ -29,11 +29,11 @@ from aiogram.fsm.storage.redis import RedisStorage
 from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler_di import ContextSchedulerDecorator
 from core.handlers import send_media
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# __ asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 async def start_bot(bot: Bot):
-    await set_commands(bot)
+   # await set_commands(bot)
     await bot.send_message(settings.bots.admin_id, text='Бот запущен!')
 
 
@@ -41,42 +41,44 @@ async def stop_bot(bot: Bot):
     await bot.send_message(settings.bots.admin_id, text='Бот остановлен!')
 
 
-def create_pool():
-    return psycopg_pool.AsyncConnectionPool(f"host=127.0.0.1 port=5432 dbname=users user=postgres password=qwerty "
-                                            f"connect_timeout=60")
+# def create_pool():
+#     return psycopg_pool.AsyncConnectionPool(f"host=127.0.0.1 port=5432 dbname=users user=postgres password=qwerty "
+#                                            f"connect_timeout=60")
 
 
 async def start():
-    logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s - [%(levelname)s] -  %(name)s - "
-                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
-                        )
+    # logging.basicConfig(level=logging.INFO,
+    #                     format="%(asctime)s - [%(levelname)s] -  %(name)s - "
+    #                            "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
+    #                     )
     bot = Bot(token=settings.bots.bot_token, parse_mode='HTML')
-    pool_connect = create_pool()
-    storage = RedisStorage.from_url('redis://195.133.1.105:6379/0')
-    dp = Dispatcher(storage=storage)
-    jobstores = {
-        'default': RedisJobStore(jobs_key='dispatched_trips_jobs',
-                                 run_times_key='dispatched_trips_running',
-                                 host='195.133.1.105',
-                                 db=2,
-                                 port=6379)
-    }
-    scheduler = ContextSchedulerDecorator(AsyncIOScheduler(timezone="Europe/Moscow", jobstores=jobstores))
-    scheduler.ctx.add_instance(bot, declared_class=Bot)
-    scheduler.add_job(apsched.send_message_time, trigger='date', run_date=datetime.now() + timedelta(seconds=10))
-    scheduler.add_job(apsched.send_message_cron, trigger='cron', hour=datetime.now().hour,
-                      minute=datetime.now().minute + 1, start_date=datetime.now())
-    scheduler.add_job(apsched.send_message_interval, trigger='interval', seconds=60)
-    scheduler.remove_all_jobs()
-    scheduler.start()
+    # pool_connect = create_pool()
+    # storage = RedisStorage.from_url('redis://195.133.1.105:6379/0')
+    #dp = Dispatcher(storage=storage)
+    dp = Dispatcher()
+
+    # jobstores = {
+    #     'default': RedisJobStore(jobs_key='dispatched_trips_jobs',
+    #                              run_times_key='dispatched_trips_running',
+    #                              host='195.133.1.105',
+    #                              db=2,
+    #                              port=6379)
+    # }
+    # scheduler = ContextSchedulerDecorator(AsyncIOScheduler(timezone="Europe/Moscow", jobstores=jobstores))
+    # scheduler.ctx.add_instance(bot, declared_class=Bot)
+    # scheduler.add_job(apsched.send_message_time, trigger='date', run_date=datetime.now() + timedelta(seconds=10))
+    # scheduler.add_job(apsched.send_message_cron, trigger='cron', hour=datetime.now().hour,
+    #                   minute=datetime.now().minute + 1, start_date=datetime.now())
+    # scheduler.add_job(apsched.send_message_interval, trigger='interval', seconds=60)
+    # scheduler.remove_all_jobs()
+    # scheduler.start()
 
     # dp.update.middleware.register(DbSession(pool_connect))
     # dp.message.middleware.register(CounterMiddleware())
     # dp.update.middleware.register(OfficeHoursMiddleware())
     # dp.update.middleware.register(SchedulerMiddleware(scheduler))
-    # dp.startup.register(start_bot)
-    # dp.shutdown.register(stop_bot)
+    dp.startup.register(start_bot)
+    dp.shutdown.register(stop_bot)
     #
     # dp.message.register(send_media.get_audio, Command(commands='audio'))
     # dp.message.register(send_media.get_document, Command(commands='document'))
@@ -110,7 +112,7 @@ async def start():
     #
     # dp.message.register(get_photo, F.photo)
     # dp.message.register(get_start, Command(commands=['start', 'run']))
-    dp.message.register(get_start, CommandStart)
+    # dp.message.register(get_start, CommandStart)
     try:
         await dp.start_polling(bot)
     finally:

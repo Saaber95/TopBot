@@ -9,12 +9,17 @@ async def get_inline(message: Message, bot: Bot):
     await message.answer(f'Привет, {message.from_user.first_name}. Показываю инлайн кнопки!',
                          reply_markup=get_inline_keyboard())
 
+async def get_start(message: Message, bot: Bot):
+    # await request.add_data(message.from_user.id, message.from_user.first_name)
+     await message.answer(f'Сообщение #counter')
+     await message.answer(f'<s>Привет {message.from_user.first_name}. Рад тебя видеть!</s>',
+                          reply_markup=get_reply_keyboard())
 
-async def get_start(message: Message, bot: Bot, counter: str, request: Request):
-    await request.add_data(message.from_user.id, message.from_user.first_name)
-    await message.answer(f'Сообщение #{counter}')
- #   await message.answer(f'<s>Привет {message.from_user.first_name}. Рад тебя видеть!</s>',
- #                        reply_markup=get_reply_keyboard())
+# async def get_start(message: Message, bot: Bot, counter: str, request: Request):
+#     await request.add_data(message.from_user.id, message.from_user.first_name)
+#     await message.answer(f'Сообщение #{counter}')
+#     await message.answer(f'<s>Привет {message.from_user.first_name}. Рад тебя видеть!</s>',
+#                          reply_markup=get_reply_keyboard())
 
 
 async def get_location(message: Message, bot: Bot):

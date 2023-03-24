@@ -48,9 +48,9 @@ async def stop_bot(bot: Bot):
 
 async def start():
     # logging.basicConfig(level=logging.INFO,
-    #                     format="%(asctime)s - [%(levelname)s] -  %(name)s - "
-    #                            "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
-    #                     )
+    #                      format="%(asctime)s - [%(levelname)s] -  %(name)s - "
+    #                             "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
+    #                      )
     bot = Bot(token=settings.bots.bot_token, parse_mode='HTML')
     # pool_connect = create_pool()
     # storage = RedisStorage.from_url('redis://195.133.1.105:6379/0')
@@ -112,7 +112,7 @@ async def start():
     #
     dp.message.register(get_photo, F.photo)
     # dp.message.register(get_start, Command(commands=['start', 'run']))
-    #dp.message.register(get_start, CommandStart)
+    dp.message.register(get_start, CommandStart)
     try:
         await dp.start_polling(bot)
     finally:

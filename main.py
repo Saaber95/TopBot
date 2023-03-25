@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message, ContentType
-from core.handlers.basic import get_start, get_photo, get_hello
+from core.handlers.basic import get_start, get_photo, get_hello, get_menu
 from core.filters.iscontact import IsTrueContact
 from core.handlers.contact import get_fake_contact, get_true_contact
 import asyncio
@@ -12,6 +12,8 @@ from aiogram import F
 from core.utils.commands import set_commands
 from core.handlers.basic import get_location
 from core.handlers.basic import get_inline
+from core.utils.commands import set_commands
+
 from core.handlers.callback import select_macbook
 from core.utils.callbackdata import MacInfo
 from core.handlers.pay import order, pre_checkout_query, successful_payment, shipping_check
@@ -104,6 +106,8 @@ async def start():
     #
     # dp.message.register(get_photo,F.photo )
     #
+
+    dp.message.register(get_menu, Command(commands=['stop', 'halt']))
     dp.message.register(get_location, F.location)
     dp.message.register(get_hello, F.text == 'Привет')
     # dp.message.register(get_true_contact, F.contact, IsTrueContact())
@@ -112,7 +116,9 @@ async def start():
     #
     dp.message.register(get_photo, F.photo)
     # dp.message.register(get_start, Command(commands=['start', 'run']))
-    #dp.message.register(get_start, CommandStart)
+    dp.message.register(get_start, CommandStart)
+
+
     try:
         await dp.start_polling(bot)
     finally:
